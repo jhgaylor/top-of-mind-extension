@@ -1,0 +1,26 @@
+{
+  "name": "tip-of-my-tongue-extension",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "parcel build manifest.json --dist-dir dist",
+    "watch": "parcel watch manifest.json --dist-dir dist --no-hmr",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "author": "Jake Gaylor",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@parcel/config-webextension": "^2.15.4",
+    "@types/chrome": "^0.0.329",
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "parcel": "^2.15.4",
+    "typescript": "^5.8.3"
+  }
+}
