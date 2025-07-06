@@ -8,7 +8,8 @@
     "default_title": "Remember with Tom"
   },
   "background": {
-    "service_worker": "src/apps/background/index.ts"
+    "service_worker": "src/apps/background/index.ts",
+    "type": "module"
   },
   "content_scripts": [
     {
@@ -23,7 +24,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "src/pages/content/quick-actions/frame.html"
+        "src/apps/quickactions/iframe.html"
       ],
       "matches": ["*://*/*"]
     }

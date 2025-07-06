@@ -1,16 +1,24 @@
 // Background script for Chrome extension messaging relay
 // This script relays messages between side panel and content script
 
+import { createWrapStore } from 'webext-redux';
+import { store } from '../../store';
+
 console.log('[Background] Service worker starting...');
 
+// Create and wrap the Redux store for webext-redux
+const wrapStore = createWrapStore();
+wrapStore(store);
+console.log('[Background] Redux store wrapped with webext-redux');
+
 // Helper function to send message with retry
-function sendMessageWithRetry(tabId, message, retryCount = 0) {
+function sendMessageWithRetry(tabId: number, message: any, retryCount = 0) {
   chrome.tabs.sendMessage(tabId, message, (response) => {
     if (chrome.runtime.lastError) {
       const error = chrome.runtime.lastError.message;
       console.warn(`[Background] Attempt ${retryCount + 1} failed for tab ${tabId}:`, error);
       
-      if (retryCount < 2 && error.includes('Receiving end does not exist')) {
+      if (retryCount < 2 && error && error.includes('Receiving end does not exist')) {
         // Retry after a short delay
         setTimeout(() => {
           sendMessageWithRetry(tabId, message, retryCount + 1);
