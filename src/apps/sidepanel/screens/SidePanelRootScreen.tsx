@@ -26,7 +26,6 @@ function SidePanelRootScreen({}: SidePanelRootScreenProps): React.ReactElement {
       <div className="p-4">
         {activeTab === 'recent' && (
           <div className="space-y-4">
-            <h2>{JSON.stringify(state)}</h2>
             <h2 className={`text-lg font-semibold ${false ? 'text-white' : 'text-gray-900'}`}>
               Recent Items
             </h2>

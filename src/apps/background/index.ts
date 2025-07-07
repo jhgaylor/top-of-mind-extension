@@ -21,6 +21,7 @@ async function main() {
           tabId: message.tabId,
           windowId: message.windowId
         });
+        chrome.sidePanel.open({ windowId: message.windowId, tabId: message.tabId });
         // Here you can add additional logic like:
         // - Storing the action in state
         // - Triggering other functionality
