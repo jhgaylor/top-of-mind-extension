@@ -15,6 +15,13 @@ async function main() {
         setState(message.data);
         sendStateSync(port);
         break;
+      case 'action:clicked':
+        console.log('[Background] Floating action button clicked:', message.action);
+        // Here you can add additional logic like:
+        // - Storing the action in state
+        // - Triggering other functionality
+        // - Sending analytics events
+        break;
       default:
         break;
     }

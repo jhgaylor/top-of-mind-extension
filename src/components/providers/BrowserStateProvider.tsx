@@ -16,6 +16,7 @@ interface BrowserStateContextType {
   setNotificationsEnabled: (enabled: boolean) => void;
   setOverlayEnabled: (enabled: boolean) => void;
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
+  sendMessage: (message: any) => void;
 }
 
 const BrowserStateContext = createContext<BrowserStateContextType>({
@@ -28,6 +29,7 @@ const BrowserStateContext = createContext<BrowserStateContextType>({
   setNotificationsEnabled: () => {},
   setOverlayEnabled: () => {},
   setTheme: () => {},
+  sendMessage: () => {},
 });
 
 export function BrowserStateProvider({ channelName, children }: BrowserStateProviderProps): React.ReactElement {
@@ -90,6 +92,10 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
     });
   }
 
+  function sendMessage(message: any) {
+    port?.postMessage(message);
+  }
+
   const value = {
     state: {
       ...state,
@@ -97,6 +103,7 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
     setNotificationsEnabled,
     setOverlayEnabled,
     setTheme,
+    sendMessage,
   }
 
   return (

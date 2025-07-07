@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useBrowserState } from '@/components/providers/BrowserStateProvider';
 
 interface QuickActionScreenProps {}
 
 function QuickActionScreen({}: QuickActionScreenProps): React.ReactElement {
   const [isOpen, setIsOpen] = useState(false);
+  const { sendMessage } = useBrowserState();
   
   const actions = [
     { id: 1, label: 'Summarize', icon: '📋', color: 'bg-blue-500 hover:bg-blue-600' },
@@ -14,6 +16,10 @@ function QuickActionScreen({}: QuickActionScreenProps): React.ReactElement {
 
   const handleActionClick = (action: typeof actions[0]) => {
     console.log(`Action clicked: ${action.label}`);
+    sendMessage({
+      type: 'action:clicked',
+      action: action.label.toLowerCase(),
+    });
     setIsOpen(false);
   };
 
