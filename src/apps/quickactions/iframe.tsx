@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserStateProvider } from '@/components/providers/BrowserStateProvider';
 import QuickActionsContainer from './containers/QuickActionsContainer';
 import QuickActionsScreen from './screens/QuickActionsScreen';
+import './index.css';
 
 const QuickActionsFramedApp = () => {
   return (

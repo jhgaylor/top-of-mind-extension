@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserStateProvider, useBrowserState } from '@/components/providers/BrowserStateProvider';
-import './styles.css';
+import './index.css';
 
 interface QuickActionsVisibilityControllerProps {
   children: React.ReactNode;
@@ -40,10 +40,11 @@ const QuickActionsAppCommunicator = () => {
   return (
     <BrowserStateProvider channelName="quickactions">
       <QuickActionsVisibilityController>
-        <div className="tom-quick-actions-container">
+        <div className="tom-quick-actions-container" style={{ width: '100px', height: '400px' }}>
           <iframe 
             src={chrome.runtime.getURL('src/apps/quickactions/iframe.html')}
             className="tom-iframe"
+            style={{ width: '100%', height: '100%', borderRadius: '12px' }}
             title="Quick Actions"
           />
         </div>
