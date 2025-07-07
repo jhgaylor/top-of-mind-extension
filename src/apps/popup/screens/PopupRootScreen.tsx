@@ -54,7 +54,7 @@ function PopupRootScreen({}: PopupRootScreenProps): React.ReactElement {
       </div>
 
       <div className="pt-6 text-center space-y-2">
-        <Link href="/settings">
+        <Link href="/settings" className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
           Advanced Settings →
         </Link>
         <div>
