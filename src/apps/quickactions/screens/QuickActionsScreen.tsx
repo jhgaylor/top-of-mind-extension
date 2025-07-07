@@ -19,32 +19,28 @@ function QuickActionScreen({}: QuickActionScreenProps): React.ReactElement {
 
   return (
     <div className="fixed inset-0" onClick={() => isOpen && setIsOpen(false)}>
-      {/* Secondary action buttons */}
-      <div className="fixed bottom-20 right-8">
-        {actions.map((action, index) => (
-          <button
-            key={action.id}
-            className={`absolute bottom-0 right-0 w-12 h-12 rounded-full text-white shadow-lg flex items-center justify-center transition-all duration-300 ${action.color} ${
-              isOpen
-                ? 'opacity-100 scale-100'
-                : 'opacity-0 scale-0 pointer-events-none'
-            }`}
-            style={{
-              transform: isOpen
-                ? `translateY(-${(index + 1) * 60}px)`
-                : 'translateY(0)',
-              transitionDelay: isOpen ? `${index * 50}ms` : '0ms',
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleActionClick(action);
-            }}
-            title={action.label}
-          >
-            <span className="text-xl">{action.icon}</span>
-          </button>
-        ))}
-      </div>
+      {/* Secondary action buttons - aligned with main FAB */}
+      {actions.map((action, index) => (
+        <button
+          key={action.id}
+          className={`fixed right-9 w-12 h-12 rounded-full text-white shadow-lg flex items-center justify-center transition-all duration-300 ${action.color} ${
+            isOpen
+              ? 'opacity-100 scale-100'
+              : 'opacity-0 scale-0 pointer-events-none'
+          }`}
+          style={{
+            bottom: isOpen ? `${32 + (index + 1) * 60 + 10}px` : '32px',
+            transitionDelay: isOpen ? `${index * 50}ms` : '0ms',
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleActionClick(action);
+          }}
+          title={action.label}
+        >
+          <span className="text-xl">{action.icon}</span>
+        </button>
+      ))}
 
       {/* Main FAB */}
       <button
