@@ -1,5 +1,5 @@
 {
-  "name": "tip-of-my-tongue-extension",
+  "name": "top-of-mind-extension",
   "version": "0.0.1",
   "scripts": {
     "build": "parcel build manifest.json --dist-dir dist",
