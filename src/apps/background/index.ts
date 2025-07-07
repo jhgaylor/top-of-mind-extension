@@ -50,4 +50,28 @@ chrome.runtime.onStartup.addListener(() => {
   console.log('[Background] Extension startup');
 });
 
+// Track connected contexts
+const connectedContexts: Record<'popup' | 'sidepanel', boolean> = {
+  popup: false,
+  sidepanel: false
+};
+
+// Handle port connections for presence tracking
+chrome.runtime.onConnect.addListener((port) => {
+  console.log('[Background] Port connected:', port.name);
+  
+  // Track connection based on port name
+  if (port.name === 'popup' || port.name === 'sidepanel') {
+    connectedContexts[port.name] = true;
+    console.log('[Background] Current presence state:', connectedContexts);
+    
+    // Handle disconnection
+    port.onDisconnect.addListener(() => {
+      console.log('[Background] Port disconnected:', port.name);
+      connectedContexts[port.name as 'popup' | 'sidepanel'] = false;
+      console.log('[Background] Current presence state:', connectedContexts);
+    });
+  }
+});
+
 console.log('[Background] Service worker initialized');
