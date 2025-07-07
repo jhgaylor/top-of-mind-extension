@@ -1,24 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserStateProvider, useBrowserState } from '@/components/providers/BrowserStateProvider';
+import './styles.css';
+
+interface QuickActionsVisibilityControllerProps {
+  children: React.ReactNode;
+}
+
+const QuickActionsVisibilityController = ({ children }: QuickActionsVisibilityControllerProps) => {
+  const { state } = useBrowserState();
+  const { overlayEnabled } = state;
+
+  if (overlayEnabled) {
+    return (
+      <>
+        {children}
+      </>
+    )
+  }
+
+  return null;
+}
 
 const QuickActionsAppCommunicator = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen]);
+
   return (
-    <div>
-      <iframe 
-        src={chrome.runtime.getURL('src/apps/quickactions/iframe.html')}
-        className="quick-actions-iframe"
-        title="Quick Actions"
-      />
-    </div>
+    <BrowserStateProvider channelName="quickactions">
+      <QuickActionsVisibilityController>
+        <div className="tom-quick-actions-container">
+          <iframe 
+            src={chrome.runtime.getURL('src/apps/quickactions/iframe.html')}
+            className="tom-iframe"
+            title="Quick Actions"
+          />
+        </div>
+      </QuickActionsVisibilityController>
+    </BrowserStateProvider>
   );
 };
 
+// Create and inject the root element
 const rootId = 'com-jakegaylor-extension-quickactions-root';
-const containerEl = document.createElement('div');
-containerEl.id = rootId;
+let containerEl = document.getElementById(rootId);
 
-document.getElementById(rootId)?.remove();
-document.body.appendChild(containerEl);
+if (!containerEl) {
+  containerEl = document.createElement('div');
+  containerEl.id = rootId;
+  document.body.appendChild(containerEl);
+}
 
 const root = createRoot(containerEl);
 root.render(<QuickActionsAppCommunicator />);

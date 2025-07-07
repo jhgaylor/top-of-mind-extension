@@ -1,4 +1,4 @@
-const PRESENCE_CONTEXTS = ['popup', 'sidepanel'] as const;
+const PRESENCE_CONTEXTS = ['popup', 'sidepanel', 'quickactions'] as const;
 
 type PresenceContext = typeof PRESENCE_CONTEXTS[number];
 
@@ -13,7 +13,8 @@ export class PresenceTracker {
   private constructor() {
     this.connectedContexts = {
       popup: false,
-      sidepanel: false
+      sidepanel: false,
+      quickactions: false
     };
   }
 
@@ -26,7 +27,8 @@ export class PresenceTracker {
 
   private connectedContexts: Record<PresenceContext, boolean> = {
     popup: false,
-    sidepanel: false
+    sidepanel: false,
+    quickactions: false
   };
 
   public get present() {
@@ -36,7 +38,7 @@ export class PresenceTracker {
   public async join(channelName: PresenceContext) {
     this.connectedContexts = {
       ...this.connectedContexts,
-      [channelName]: true
+      [channelName]: true,
     };
     this.onChangeCallbacks.forEach(callback => callback(this.present));
   }
@@ -44,7 +46,7 @@ export class PresenceTracker {
   public async leave(channelName: PresenceContext) {
     this.connectedContexts = {
       ...this.connectedContexts,
-      [channelName]: false
+      [channelName]: false,
     };
     this.onChangeCallbacks.forEach(callback => callback(this.present));
   }

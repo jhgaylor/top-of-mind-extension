@@ -1,7 +1,5 @@
 import React from 'react';
-import { Toggle } from '@/components/atoms';
 import { useTheme } from '@/hooks';
-import { useBrowserState } from '@/components/providers/BrowserStateProvider';
 
 interface SidePanelLayoutProps {
   children: React.ReactNode;
