@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { Store } from 'webext-redux';
-import PopupContainer from './containers/PopupContainer';
 import PopupLayout from './layout';
 import { getProxyStore } from '../../store/proxy';
 import { RootState } from '../../types/store';
-import { Router, Route, Link } from 'wouter';
+import { Router, Route } from 'wouter';
+import PopupRootScreen from './screens/PopupRootScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import { LoadingState, ConnectionError } from './widgets';
 // @ts-ignore - Parcel doesn't resolve wouter/memory-location properly
 import { memoryLocation } from 'wouter/esm/memory-location.js';
 
@@ -27,11 +29,11 @@ const PopupApp = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Connecting to extension store...</div>;
+    return <LoadingState />;
   }
 
   if (!proxyStore) {
-    return <div>Failed to connect to extension store</div>;
+    return <ConnectionError />;
   }
 
   const {hook: locationHook} = memoryLocation({ path: "/" });
@@ -40,14 +42,8 @@ const PopupApp = () => {
     <Provider store={proxyStore}>
       <PopupLayout>
         <Router hook={locationHook}>
-          <Route path="/">
-            <p>Hello</p>
-            <Link to="/settings">Settings</Link>
-          </Route>
-          <Route path="/settings">
-            <p>Settings</p>
-            <Link to="/">Home</Link>
-          </Route>
+          <Route path="/" component={PopupRootScreen} />
+          <Route path="/settings" component={SettingsScreen} />
         </Router>
       </PopupLayout>
     </Provider>
