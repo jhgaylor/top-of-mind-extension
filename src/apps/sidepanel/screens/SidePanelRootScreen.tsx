@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useAppSelector } from '@/store/hooks';
+import { useBrowserState } from '@/components/providers';
 import { EmptyState, TabNavigation } from '@/apps/sidepanel/widgets';
 
 interface SidePanelRootScreenProps {}
 
 function SidePanelRootScreen({}: SidePanelRootScreenProps): React.ReactElement {
-  const theme = useAppSelector((state) => state.ui.theme);
-  const isDarkMode = theme === 'dark';
+  const { state } = useBrowserState();
   const [activeTab, setActiveTab] = useState('recent');
 
   const tabs = [
@@ -17,25 +16,24 @@ function SidePanelRootScreen({}: SidePanelRootScreenProps): React.ReactElement {
 
   return (
     <div className="h-full">
-      {/* Tab Navigation */}
       <TabNavigation 
         tabs={tabs}
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        isDarkMode={isDarkMode}
+        isDarkMode={false}
       />
 
-      {/* Tab Content */}
       <div className="p-4">
         {activeTab === 'recent' && (
           <div className="space-y-4">
-            <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2>{JSON.stringify(state)}</h2>
+            <h2 className={`text-lg font-semibold ${false ? 'text-white' : 'text-gray-900'}`}>
               Recent Items
             </h2>
             <EmptyState
               message="No recent items yet. Start browsing to save content!"
               icon="📝"
-              isDarkMode={isDarkMode}
+              isDarkMode={false}
             />
           </div>
         )}
@@ -43,7 +41,7 @@ function SidePanelRootScreen({}: SidePanelRootScreenProps): React.ReactElement {
         {activeTab === 'collections' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-lg font-semibold ${false ? 'text-white' : 'text-gray-900'}`}>
                 Collections
               </h2>
               <button className="text-sm text-blue-600 hover:text-blue-700">
@@ -57,7 +55,7 @@ function SidePanelRootScreen({}: SidePanelRootScreenProps): React.ReactElement {
                 label: "Create your first collection",
                 onClick: () => console.log('Create collection')
               }}
-              isDarkMode={isDarkMode}
+              isDarkMode={false}
             />
           </div>
         )}
@@ -69,7 +67,7 @@ function SidePanelRootScreen({}: SidePanelRootScreenProps): React.ReactElement {
               placeholder="Search your saved content..."
               className={`
                 w-full px-4 py-2 rounded-lg border
-                ${isDarkMode 
+                ${false 
                   ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' 
                   : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                 }
@@ -79,14 +77,14 @@ function SidePanelRootScreen({}: SidePanelRootScreenProps): React.ReactElement {
             <EmptyState
               message="Start typing to search..."
               icon="🔎"
-              isDarkMode={isDarkMode}
+              isDarkMode={false}
             />
           </div>
         )}
       </div>
 
       {/* Footer Actions */}
-      <div className={`absolute bottom-0 left-0 right-0 p-4 border-t ${isDarkMode ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-white'}`}>
+      <div className={`absolute bottom-0 left-0 right-0 p-4 border-t ${false ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-white'}`}>
         <button className="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
           Quick Capture
         </button>

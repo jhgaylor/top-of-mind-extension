@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import { Link } from 'wouter';
 import { ToggleSetting } from '@/components/widgets';
+import { useBrowserState } from '@/components/providers';
 
 interface PopupRootScreenProps {}
 
 function PopupRootScreen({}: PopupRootScreenProps): React.ReactElement {
+  const { state } = useBrowserState();
   const [overlayEnabled, setOverlayEnabled] = useState(false);
-  const [sidePanelEnabled, setSidePanelEnabled] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+
+  const sidePanelEnabled = state.present.includes('sidepanel');
+  function setSidePanelEnabled(enabled: boolean) {
+    if (enabled) {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]) {
+          chrome.sidePanel.open({ windowId: tabs[0].windowId, tabId: tabs[0].id });
+        }
+      });
+    }
+  }
 
   return (
     <div className="space-y-1">

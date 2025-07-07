@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import { useAppSelector, useAsyncAppDispatch } from '@/store/hooks';
-import { setActivePanel, setSidePanelOpen, setTheme } from '@/store/slices/uiSlice';
 import { Toggle } from '@/components/atoms';
 
 interface SidePanelLayoutProps {
@@ -8,33 +6,7 @@ interface SidePanelLayoutProps {
 }
 
 function SidePanelLayout({ children }: SidePanelLayoutProps): React.ReactElement {
-  const dispatch = useAsyncAppDispatch();
-  const theme = useAppSelector((state) => state.ui.theme);
-  const isDarkMode = theme === 'dark';
-
-  useEffect(() => {
-    // Set sidepanel as open and active on mount
-    dispatch(setSidePanelOpen(true));
-    dispatch(setActivePanel('sidepanel'));
-
-    // Set up Chrome runtime message listener
-    const messageListener = (request: any, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) => {
-      console.log('[SidePanel] Received message:', request);
-      sendResponse({ received: true });
-    };
-
-    chrome.runtime.onMessage.addListener(messageListener);
-
-    // Cleanup on unmount
-    return () => {
-      chrome.runtime.onMessage.removeListener(messageListener);
-      dispatch(setSidePanelOpen(false));
-    };
-  }, [dispatch]);
-
-  const handleThemeToggle = () => {
-    dispatch(setTheme(isDarkMode ? 'light' : 'dark'));
-  };
+  const isDarkMode = false;
 
   return (
     <div 
@@ -57,7 +29,7 @@ function SidePanelLayout({ children }: SidePanelLayoutProps): React.ReactElement
             </span>
             <Toggle
               checked={isDarkMode}
-              onChange={handleThemeToggle}
+              onChange={() => {}}
               size="sm"
               aria-label="Toggle dark mode"
             />

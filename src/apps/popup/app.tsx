@@ -6,20 +6,20 @@ import { memoryLocation } from 'wouter/esm/memory-location.js';
 import PopupLayout from './layout';
 import PopupRootScreen from './screens/PopupRootScreen';
 import SettingsScreen from './screens/SettingsScreen';
-import { BrowserContainer } from '@/components/containers';
+import { BrowserStateProvider } from '@/components/providers';
 
 const PopupApp = () => {
   const {hook: locationHook} = memoryLocation({ path: "/" });
 
   return (
-    <BrowserContainer>
+    <BrowserStateProvider channelName="popup">
       <PopupLayout>
         <Router hook={locationHook}>
           <Route path="/" component={PopupRootScreen} />
           <Route path="/settings" component={SettingsScreen} />
         </Router>
       </PopupLayout>
-    </BrowserContainer>
+    </BrowserStateProvider>
   );
 };
 
