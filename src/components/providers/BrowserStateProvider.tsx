@@ -36,6 +36,7 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
   const [isLoading, setIsLoading] = useState(true);
   const [port, setPort] = useState<chrome.runtime.Port | null>(null);
   const [lastDisconnectedAt, setLastDisconnectedAt] = useState<number | null>(null);
+  const [tabInfo, setTabInfo] = useState<{ tabId?: number; windowId?: number }>({});
   const [state, setState] = useState({
     present: [],
     notificationsEnabled: false,
@@ -44,6 +45,15 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
   });
 
   useEffect(() => {
+    // Get tab info if we're in a content script context
+    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+      chrome.runtime.sendMessage({ type: 'get-tab-info' }, (response) => {
+        if (response && response.tabId !== undefined) {
+          setTabInfo({ tabId: response.tabId, windowId: response.windowId });
+        }
+      });
+    }
+
     const newPort = chrome.runtime.connect({ name: channelName });
     newPort.onMessage.addListener((message) => {
       console.log(`[${channelName}] Message received:`, message);
@@ -93,7 +103,13 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
   }
 
   function sendMessage(message: any) {
-    port?.postMessage(message);
+    // Include tab and window IDs with the message
+    const messageWithTabInfo = {
+      ...message,
+      tabId: tabInfo.tabId,
+      windowId: tabInfo.windowId,
+    };
+    port?.postMessage(messageWithTabInfo);
   }
 
   const value = {

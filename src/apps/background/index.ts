@@ -16,7 +16,11 @@ async function main() {
         sendStateSync(port);
         break;
       case 'action:clicked':
-        console.log('[Background] Floating action button clicked:', message.action);
+        console.log('[Background] Floating action button clicked:', {
+          action: message.action,
+          tabId: message.tabId,
+          windowId: message.windowId
+        });
         // Here you can add additional logic like:
         // - Storing the action in state
         // - Triggering other functionality
@@ -82,6 +86,14 @@ async function main() {
 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log('[Background] Message received:', message);
+    
+    if (message.type === 'get-tab-info') {
+      sendResponse({
+        tabId: sender.tab?.id,
+        windowId: sender.tab?.windowId
+      });
+      return true;
+    }
   });
 }
 
