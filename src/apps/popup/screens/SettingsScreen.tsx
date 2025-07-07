@@ -48,7 +48,7 @@ function SettingsScreen(): React.ReactElement {
           <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">About</h3>
           <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
             <p className="text-xs text-gray-600 dark:text-gray-400">Version 1.0.0</p>
-            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">© 2024 Top of Mind</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">© 2025 Jake Gaylor</p>
           </div>
         </div>
       </div>
