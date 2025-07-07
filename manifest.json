@@ -4,6 +4,9 @@
   "version": "0.0.1",
   "description": "A tool to remember things you find online",
   "action": {
+    "default_icon": {
+      "48": "assets/images/mav.png"
+    },
     "default_popup": "src/apps/popup/index.html",
     "default_title": "Remember with Tom"
   },
@@ -11,8 +14,15 @@
     "service_worker": "src/apps/background/index.ts",
     "type": "module"
   },
-  "permissions": ["sidePanel", "storage"],
+  "icons": {
+    "48": "assets/images/mav.png"
+  },
+  "permissions": ["sidePanel", "storage", "notifications"],
   "side_panel": {
     "default_path": "src/apps/sidepanel/index.html"
-  }
+  },
+  "web_accessible_resources": [{
+    "resources": ["assets/images/*"],
+    "matches": ["<all_urls>"]
+  }]
 }

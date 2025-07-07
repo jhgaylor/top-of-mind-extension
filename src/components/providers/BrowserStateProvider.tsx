@@ -9,13 +9,19 @@ interface BrowserStateProviderProps {
 interface BrowserStateContextType {
   state: {
     present: string[];
-  };
+    notificationsEnabled: boolean;
+  }
+  setNotificationsEnabled: (enabled: boolean) => void;
+  setOverlayEnabled: (enabled: boolean) => void;
 }
 
 const BrowserStateContext = createContext<BrowserStateContextType>({
   state: {
-    present: []
-  }
+    present: [],
+    notificationsEnabled: false,
+  },
+  setNotificationsEnabled: () => {},
+  setOverlayEnabled: () => {},
 });
 
 export function BrowserStateProvider({ channelName, children }: BrowserStateProviderProps): React.ReactElement {
@@ -51,10 +57,26 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
     return <LoadingState message="Connecting to extension..." />;
   }
 
+  function setNotificationsEnabled(enabled: boolean) {
+    port?.postMessage({
+      type: 'state:set',
+      data: { notificationsEnabled: enabled },
+    });
+  }
+
+  function setOverlayEnabled(enabled: boolean) {
+    port?.postMessage({
+      type: 'state:set',
+      data: { overlayEnabled: enabled },
+    });
+  }
+
   const value = {
     state: {
       ...state,
     },
+    setNotificationsEnabled,
+    setOverlayEnabled,
   }
 
   return (

@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'wouter';
 import { ToggleSetting } from '@/components/widgets';
+import { Button } from '@/components/atoms';
 import { useBrowserState } from '@/components/providers';
 
 interface PopupRootScreenProps {}
 
 function PopupRootScreen({}: PopupRootScreenProps): React.ReactElement {
-  const { state } = useBrowserState();
-  const [overlayEnabled, setOverlayEnabled] = useState(false);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const { 
+    state,
+    setNotificationsEnabled,
+    setOverlayEnabled,
+  } = useBrowserState();
+  const { notificationsEnabled, overlayEnabled, present } = state;
 
-  const sidePanelEnabled = state.present.includes('sidepanel');
-  function setSidePanelEnabled(enabled: boolean) {
-    if (enabled) {
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs[0]) {
-          chrome.sidePanel.open({ windowId: tabs[0].windowId, tabId: tabs[0].id });
-        }
-      });
-    }
+  const sidePanelEnabled = present.includes('sidepanel');
+  function openSidePanel() {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]) {
+        chrome.sidePanel.open({ windowId: tabs[0].windowId, tabId: tabs[0].id });
+      }
+    });
   }
 
   return (
@@ -30,13 +32,6 @@ function PopupRootScreen({}: PopupRootScreenProps): React.ReactElement {
           enabled={overlayEnabled}
           onChange={setOverlayEnabled}
         />
-
-        <ToggleSetting
-          label="Side Panel"
-          description="Enable quick access side panel"
-          enabled={sidePanelEnabled}
-          onChange={setSidePanelEnabled}
-        />
         
         <ToggleSetting
           label="Notifications"
@@ -47,20 +42,20 @@ function PopupRootScreen({}: PopupRootScreenProps): React.ReactElement {
       </div>
 
       <div className="pt-6 space-y-3">
-        <button className="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-          Open Dashboard
-        </button>
-        
-        <button className="w-full bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors">
-          View Activity Log
-        </button>
+        <Button 
+          onClick={() => openSidePanel()} 
+          disabled={sidePanelEnabled}
+          fullWidth
+          variant="primary"
+          size="md"
+        >
+          Open Side Panel
+        </Button>
       </div>
 
       <div className="pt-6 text-center space-y-2">
         <Link href="/settings">
-          <a className="text-xs text-blue-600 hover:text-blue-700">
-            Advanced Settings →
-          </a>
+          Advanced Settings →
         </Link>
         <div>
           <a href="#" className="text-xs text-gray-500 hover:text-gray-700">
