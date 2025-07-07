@@ -10,18 +10,24 @@ interface BrowserStateContextType {
   state: {
     present: string[];
     notificationsEnabled: boolean;
+    overlayEnabled: boolean;
+    theme: 'light' | 'dark' | 'system';
   }
   setNotificationsEnabled: (enabled: boolean) => void;
   setOverlayEnabled: (enabled: boolean) => void;
+  setTheme: (theme: 'light' | 'dark' | 'system') => void;
 }
 
 const BrowserStateContext = createContext<BrowserStateContextType>({
   state: {
     present: [],
     notificationsEnabled: false,
+    overlayEnabled: false,
+    theme: 'system',
   },
   setNotificationsEnabled: () => {},
   setOverlayEnabled: () => {},
+  setTheme: () => {},
 });
 
 export function BrowserStateProvider({ channelName, children }: BrowserStateProviderProps): React.ReactElement {
@@ -29,6 +35,9 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
   const [port, setPort] = useState<chrome.runtime.Port | null>(null);
   const [state, setState] = useState({
     present: [],
+    notificationsEnabled: false,
+    overlayEnabled: false,
+    theme: 'system' as 'light' | 'dark' | 'system',
   });
 
   useEffect(() => {
@@ -71,12 +80,20 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
     });
   }
 
+  function setTheme(theme: 'light' | 'dark' | 'system') {
+    port?.postMessage({
+      type: 'state:set',
+      data: { theme },
+    });
+  }
+
   const value = {
     state: {
       ...state,
     },
     setNotificationsEnabled,
     setOverlayEnabled,
+    setTheme,
   }
 
   return (

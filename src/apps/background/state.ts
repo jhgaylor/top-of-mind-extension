@@ -1,11 +1,13 @@
 type AppState = {
   notificationsEnabled: boolean;
   overlayEnabled: boolean;
+  theme: 'light' | 'dark' | 'system';
 };
 
 const _defaultState: AppState = {
   notificationsEnabled: false,
   overlayEnabled: false,
+  theme: 'system',
 };
 
 export class AppStateStore {
