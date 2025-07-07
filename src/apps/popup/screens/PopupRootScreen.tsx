@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'wouter';
-import { ToggleSetting } from '../widgets/ToggleSetting';
+import { ToggleSetting } from '@/components/widgets';
 
 interface PopupRootScreenProps {}
 
@@ -18,7 +18,7 @@ function PopupRootScreen({}: PopupRootScreenProps): React.ReactElement {
           enabled={overlayEnabled}
           onChange={setOverlayEnabled}
         />
-        
+
         <ToggleSetting
           label="Side Panel"
           description="Enable quick access side panel"

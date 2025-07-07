@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for sidepanel */
+.sidepanel-container {
+  width: 100%;
+  min-width: 320px;
+  max-width: 420px;
+}
+
+/* Scrollbar styles for dark mode */
+@layer utilities {
+  .dark-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .dark-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-800;
+  }
+  
+  .dark-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-600 rounded-full;
+  }
+  
+  .dark-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500;
+  }
+}

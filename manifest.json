@@ -11,5 +11,8 @@
     "service_worker": "src/apps/background/index.ts",
     "type": "module"
   },
-  "permissions": ["sidePanel", "storage"]
+  "permissions": ["sidePanel", "storage"],
+  "side_panel": {
+    "default_path": "src/apps/sidepanel/index.html"
+  }
 }
