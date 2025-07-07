@@ -6,10 +6,10 @@ function QuickActionScreen({}: QuickActionScreenProps): React.ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   
   const actions = [
-    { id: 1, label: 'Save', icon: '💾', color: 'bg-blue-500 hover:bg-blue-600' },
-    { id: 2, label: 'Note', icon: '📝', color: 'bg-green-500 hover:bg-green-600' },
-    { id: 3, label: 'Remind', icon: '⏰', color: 'bg-yellow-500 hover:bg-yellow-600' },
-    { id: 4, label: 'Tag', icon: '🏷️', color: 'bg-purple-500 hover:bg-purple-600' },
+    { id: 1, label: 'Summarize', icon: '📋', color: 'bg-blue-500 hover:bg-blue-600' },
+    { id: 2, label: 'Memorize', icon: '🧠', color: 'bg-green-500 hover:bg-green-600' },
+    { id: 3, label: 'Research', icon: '🔍', color: 'bg-yellow-500 hover:bg-yellow-600' },
+    { id: 4, label: 'Fact Check', icon: '✅', color: 'bg-purple-500 hover:bg-purple-600' },
   ];
 
   const handleActionClick = (action: typeof actions[0]) => {
