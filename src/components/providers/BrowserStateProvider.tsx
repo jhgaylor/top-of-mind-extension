@@ -33,6 +33,7 @@ const BrowserStateContext = createContext<BrowserStateContextType>({
 export function BrowserStateProvider({ channelName, children }: BrowserStateProviderProps): React.ReactElement {
   const [isLoading, setIsLoading] = useState(true);
   const [port, setPort] = useState<chrome.runtime.Port | null>(null);
+  const [lastDisconnectedAt, setLastDisconnectedAt] = useState<number | null>(null);
   const [state, setState] = useState({
     present: [],
     notificationsEnabled: false,
@@ -41,9 +42,6 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
   });
 
   useEffect(() => {
-    if (port) {
-      port.disconnect();
-    }
     const newPort = chrome.runtime.connect({ name: channelName });
     newPort.onMessage.addListener((message) => {
       console.log(`[${channelName}] Message received:`, message);
@@ -52,6 +50,10 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
         ...message.data,
       }));
     });
+    newPort.onDisconnect.addListener(() => {
+      setPort(null);
+      setLastDisconnectedAt(Date.now());
+    });
     newPort.postMessage({
       type: 'state:sync',
     });
@@ -59,8 +61,9 @@ export function BrowserStateProvider({ channelName, children }: BrowserStateProv
     setIsLoading(false);
     return () => {
       newPort.disconnect();
+      setPort(null);
     };
-  }, [channelName]);
+  }, [channelName, lastDisconnectedAt]);
 
   if (isLoading) {
     return <LoadingState message="Connecting to extension..." />;
