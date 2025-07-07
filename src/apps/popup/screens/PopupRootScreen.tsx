@@ -25,7 +25,7 @@ function PopupRootScreen({}: PopupRootScreenProps): React.ReactElement {
 
   return (
     <div className="space-y-1">
-      <div className="divide-y divide-gray-200">
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <ToggleSetting
           label="On-Screen Overlay"
           description="Show floating widget on web pages"
@@ -58,7 +58,7 @@ function PopupRootScreen({}: PopupRootScreenProps): React.ReactElement {
           Advanced Settings →
         </Link>
         <div>
-          <a href="#" className="text-xs text-gray-500 hover:text-gray-700">
+          <a href="#" className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
             About • Privacy • Support
           </a>
         </div>

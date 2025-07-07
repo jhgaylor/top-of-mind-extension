@@ -26,13 +26,13 @@ export const ToggleSetting: React.FC<ToggleSettingProps> = ({
     <div className="flex items-start justify-between py-4">
       <div className="flex-1 pr-3">
         <label 
-          className={`text-sm font-medium text-gray-900 ${disabled ? 'opacity-50' : 'cursor-pointer'}`} 
+          className={`text-sm font-medium text-gray-900 dark:text-gray-100 ${disabled ? 'opacity-50' : 'cursor-pointer'}`} 
           onClick={handleLabelClick}
         >
           {label}
         </label>
         {description && (
-          <p className={`mt-1 text-xs text-gray-500 ${disabled ? 'opacity-50' : ''}`}>
+          <p className={`mt-1 text-xs text-gray-500 dark:text-gray-400 ${disabled ? 'opacity-50' : ''}`}>
             {description}
           </p>
         )}
