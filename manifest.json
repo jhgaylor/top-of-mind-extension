@@ -11,23 +11,5 @@
     "service_worker": "src/apps/background/index.ts",
     "type": "module"
   },
-  "content_scripts": [
-    {
-      "matches": ["*://*/*"],
-      "js": ["src/apps/quickactions/index.tsx"],
-      "run_at": "document_end"
-    }
-  ],
-  "side_panel": {
-    "default_path": "src/apps/sidepanel/index.html"
-  },
-  "web_accessible_resources": [
-    {
-      "resources": [
-        "src/apps/quickactions/iframe.html"
-      ],
-      "matches": ["*://*/*"]
-    }
-  ],
   "permissions": ["sidePanel", "storage"]
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useAppSelector, useAsyncAppDispatch } from '../../../store';
-import { setActivePanel, setPopupOpen, setTheme } from '../../../store/slices/uiSlice';
+import { useAppSelector, useAsyncAppDispatch } from '@/store';
+import { setActivePanel, setPopupOpen, setTheme } from '@/store/slices/uiSlice';
 
 interface PopupContainerProps {
   children: React.ReactNode;
@@ -14,8 +14,8 @@ function PopupContainer({ children }: PopupContainerProps): React.ReactElement {
     // Mark popup as open and active when component mounts
     const initializePopup = async () => {
       try {
-        await dispatch(setPopupOpen(true));
-        await dispatch(setActivePanel('popup'));
+        // await dispatch(setPopupOpen(true));
+        // await dispatch(setActivePanel('popup'));
         console.log('[PopupContainer] Initialized popup state');
       } catch (error) {
         console.error('[PopupContainer] Failed to initialize:', error);
@@ -30,7 +30,7 @@ function PopupContainer({ children }: PopupContainerProps): React.ReactElement {
         console.error('[PopupContainer] Failed to cleanup:', error);
       });
     };
-  }, [dispatch]);
+  }, []);
 
   const handleThemeToggle = async () => {
     try {

@@ -16,7 +16,8 @@
     "react-dom": "^19.1.0",
     "react-redux": "^9.2.0",
     "redux": "^5.0.1",
-    "webext-redux": "^4.0.0"
+    "webext-redux": "^4.0.0",
+    "wouter": "^3.7.1"
   },
   "devDependencies": {
     "@parcel/config-webextension": "^2.15.4",
