@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react';
 import { Toggle } from '@/components/atoms';
+import { useTheme } from '@/hooks';
+import { useBrowserState } from '@/components/providers/BrowserStateProvider';
 
 interface SidePanelLayoutProps {
   children: React.ReactNode;
 }
 
 function SidePanelLayout({ children }: SidePanelLayoutProps): React.ReactElement {
-  const isDarkMode = false;
+  useTheme();
+  const { state, setTheme } = useBrowserState();
+  const { theme } = state;
+  
+  const isDarkMode = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   return (
     <div 
@@ -29,7 +35,7 @@ function SidePanelLayout({ children }: SidePanelLayoutProps): React.ReactElement
             </span>
             <Toggle
               checked={isDarkMode}
-              onChange={() => {}}
+              onChange={(checked) => setTheme(checked ? 'dark' : 'light')}
               size="sm"
               aria-label="Toggle dark mode"
             />
